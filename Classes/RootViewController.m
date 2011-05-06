@@ -53,7 +53,7 @@ static int dbg = 1;
     return 1;
 }
 
--(int)getCellCount:(NSDictionary *)dict level:(int)lvl;
+-(int)getCellCount:(NSMutableDictionary *)dict level:(int)lvl;
 {
     //DBG(@"dict.key, isopen=%@, %@", [dict objectForKey:@"key"], [dict objectForKey:@"isOpen"]);
 
@@ -65,7 +65,7 @@ static int dbg = 1;
     BOOL isOpen = [[dict objectForKey:@"isOpen"] boolValue];
 
     if (isOpen) {
-        for (NSDictionary *child in [dict objectForKey:@"value"]) {
+        for (NSMutableDictionary *child in [dict objectForKey:@"value"]) {
             DBGX(2, @"count=%d, child.key=%@ child.isOpen=%@",
                     count,
                     [child objectForKey:@"key"],
@@ -75,26 +75,24 @@ static int dbg = 1;
         }
     }
 
-    DBG(@"===> level %d: count=%d for dict.key=%@", lvl, count, [dict objectForKey:@"key"]);
+    DBGX(2, @"===> level %d: count=%d for dict.key=%@", lvl, count, [dict objectForKey:@"key"]);
     return count;
 }
 
 // Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    DBGS;
-    NSInteger count = [self getCellCount:items level:0] - 1;
-
-    DBG(@"self.lookup=%@", self.lookup);
-    DBG(@"self.level=%@", self.level);
-    
-    return count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    self.lookup = [NSMutableArray array];
+    self.level = [NSMutableArray array];
+    return [self getCellCount:items level:0] - 1;
 }
 
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    DBGS;
+    DBG(@"indexPath=%@", indexPath);
+    
     static NSString *CellIdentifier = @"Cell";
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -102,14 +100,14 @@ static int dbg = 1;
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 
-    NSDictionary *item = [self.lookup objectAtIndex:indexPath.row+1];
+    NSMutableDictionary *item = [self.lookup objectAtIndex:indexPath.row+1];
 
     cell.indentationLevel = [[self.level objectAtIndex:indexPath.row+1] intValue] - 1;
     cell.textLabel.text = [NSString stringWithFormat:@"%d: %@", cell.indentationLevel, [item objectForKey:@"key"]];
 
-    NSLog(@"value.@count = %@", [item valueForKeyPath:@"value.@count"]);
-
-    if ([[item valueForKeyPath:@"value.@count"] intValue] > 0) {
+    BOOL isOpen = [[item valueForKeyPath:@"isOpen"] boolValue];
+    int item_count = [[item valueForKeyPath:@"value.@count"] intValue];
+    if (isOpen == NO && item_count > 0) {
         cell.accessoryType        = UITableViewCellAccessoryDisclosureIndicator;
     } else {
         cell.accessoryType        = UITableViewCellAccessoryNone;
@@ -121,15 +119,26 @@ static int dbg = 1;
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DBG(@"indexPath=%@", indexPath);
+    NSMutableDictionary *item = [self.lookup objectAtIndex:indexPath.row+1];
+    DBGX(2, @"item.key=%@ item.isOpen=%@", [item objectForKey:@"key"], [item objectForKey:@"isOpen"]);
 
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    BOOL newState = NO;
+    if (NO == [[item valueForKeyPath:@"isOpen"] boolValue]) {
+         newState = YES;
+    } else {
+         newState = NO;
+    }
+    [item setObject:[NSNumber numberWithBool:newState] forKey:@"isOpen"];
+
+    DBGX(2, @"item.key=%@ item.isOpen=%@", [item objectForKey:@"key"], [item objectForKey:@"isOpen"]);
+
+    [tableView beginUpdates];
+    [tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
+                  withRowAnimation:UITableViewRowAnimationFade];
+    [tableView endUpdates];
 }
 
 

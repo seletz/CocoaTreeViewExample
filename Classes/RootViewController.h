@@ -15,7 +15,6 @@
 @property (nonatomic, retain) NSMutableArray *lookup;
 @property (nonatomic, retain) NSMutableArray *level;
 
-
--(int)getCellCount:(NSDictionary *)dict level:(int)lvl;
+-(int)getCellCount:(NSMutableDictionary *)dict level:(int)lvl;
 
 @end
