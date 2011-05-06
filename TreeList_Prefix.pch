@@ -7,6 +7,16 @@
 #warning "This project uses features only available in iPhone SDK 3.0 and later."
 #endif
 
+#ifdef DEBUG
+#    define DBGS           if (dbg>0) NSLog(@"%s START", __func__)
+#    define DBG(fmt, ...)  if (dbg>0) NSLog(@"%s: " fmt, __func__, ##__VA_ARGS__)
+#    define DBGX(lvl, fmt, ...)  if (dbg>=lvl) NSLog(@"%s: " fmt, __func__, ##__VA_ARGS__)
+#else
+#    define DBGS do { } while (0)
+#    define DBG(...) do {} while (0)
+#    define DBGX(...) do {} while (0)
+#endif
+
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
