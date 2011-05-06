@@ -11,4 +11,10 @@
 @interface RootViewController : UITableViewController {
 }
 
+@property (nonatomic, retain) NSMutableDictionary *items;
+@property (nonatomic, retain) NSMutableArray *lookup;
+@property (nonatomic, retain) NSMutableArray *level;
+
+-(int)getCellCount:(NSMutableDictionary *)dict level:(int)lvl;
+
 @end

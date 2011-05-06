@@ -6,53 +6,44 @@
 //  Copyright 2011 Nexiles GmbH. All rights reserved.
 //
 
+#import "NSString+SBJSON.h"
 #import "RootViewController.h"
 
-
+static int dbg = 1;
 @implementation RootViewController
 
+
+@synthesize items;
+@synthesize lookup;
+@synthesize level;
 
 #pragma mark -
 #pragma mark View lifecycle
 
-/*
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
+    DBGS;
     [super viewDidLoad];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"contents" ofType:@"json"];
+    NSString *data = [NSString stringWithContentsOfFile:filePath];
 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-*/
+    self.lookup = [NSMutableArray array];
+    self.level = [NSMutableArray array];
 
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
+    self.items = [data JSONValue];
+    DBGX(2, @"self.items=%@", self.items);
 
-/*
- // Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	// Return YES for supported orientations.
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
- */
+#if 0
+    int cell_count = [self getCellCount:self.items];
+    DBGX(2, @"cell_count=%d", cell_count);
 
+    DBGX(2, @"self.lookup=%@", self.lookup);
+
+    for (int i=0; i<cell_count; i++) {
+        NSLog(@"Cell %d: %@", i, [[self.lookup objectAtIndex:i] objectForKey:@"key"]);
+    }
+#endif
+}
 
 #pragma mark -
 #pragma mark Table view data source
@@ -62,104 +53,105 @@
     return 1;
 }
 
+-(int)getCellCount:(NSMutableDictionary *)dict level:(int)lvl;
+{
+    //DBG(@"dict.key, isopen=%@, %@", [dict objectForKey:@"key"], [dict objectForKey:@"isOpen"]);
+
+    int count = 1;
+
+    [self.lookup addObject: dict];
+    [self.level addObject: [NSNumber numberWithInt:lvl]];
+
+    BOOL isOpen = [[dict objectForKey:@"isOpen"] boolValue];
+
+    if (isOpen) {
+        for (NSMutableDictionary *child in [dict objectForKey:@"value"]) {
+            DBGX(2, @"count=%d, child.key=%@ child.isOpen=%@",
+                    count,
+                    [child objectForKey:@"key"],
+                    [child objectForKey:@"isOpen"]);
+
+            count += [self getCellCount:child level:lvl + 1];
+        }
+    }
+
+    DBGX(2, @"===> level %d: count=%d for dict.key=%@", lvl, count, [dict objectForKey:@"key"]);
+    return count;
+}
 
 // Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    self.lookup = [NSMutableArray array];
+    self.level = [NSMutableArray array];
+    return [self getCellCount:items level:0] - 1;
 }
 
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    DBG(@"indexPath=%@", indexPath);
     
     static NSString *CellIdentifier = @"Cell";
-    
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    
-	// Configure the cell.
+
+    NSMutableDictionary *item = [self.lookup objectAtIndex:indexPath.row+1];
+
+    cell.indentationLevel = [[self.level objectAtIndex:indexPath.row+1] intValue] - 1;
+    cell.textLabel.text = [NSString stringWithFormat:@"%d: %@", cell.indentationLevel, [item objectForKey:@"key"]];
+
+    BOOL isOpen = [[item valueForKeyPath:@"isOpen"] boolValue];
+    int item_count = [[item valueForKeyPath:@"value.@count"] intValue];
+    if (isOpen == NO && item_count > 0) {
+        cell.accessoryType        = UITableViewCellAccessoryDisclosureIndicator;
+    } else {
+        cell.accessoryType        = UITableViewCellAccessoryNone;
+    }
 
     return cell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-	/*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-	 [self.navigationController pushViewController:detailViewController animated:YES];
-	 [detailViewController release];
-	 */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DBG(@"indexPath=%@", indexPath);
+    NSMutableDictionary *item = [self.lookup objectAtIndex:indexPath.row+1];
+    DBGX(2, @"item.key=%@ item.isOpen=%@", [item objectForKey:@"key"], [item objectForKey:@"isOpen"]);
+
+    BOOL newState = NO;
+    if (NO == [[item valueForKeyPath:@"isOpen"] boolValue]) {
+         newState = YES;
+    } else {
+         newState = NO;
+    }
+    [item setObject:[NSNumber numberWithBool:newState] forKey:@"isOpen"];
+
+    DBGX(2, @"item.key=%@ item.isOpen=%@", [item objectForKey:@"key"], [item objectForKey:@"isOpen"]);
+
+    [tableView beginUpdates];
+    [tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
+                  withRowAnimation:UITableViewRowAnimationFade];
+    [tableView endUpdates];
 }
 
 
 #pragma mark -
 #pragma mark Memory management
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-}
-
-
 - (void)dealloc {
     [super dealloc];
+    self.items = nil;
+    self.lookup = nil;
+    self.level = nil;
 }
 
 
 @end
-
+// vim: set sw=4 ts=4 expandtab:

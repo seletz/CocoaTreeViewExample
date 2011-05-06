@@ -15,6 +15,12 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
+		BF5C98341373F6FA00000929 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C982A1373F6FA00000929 /* SBJsonWriter.m */; };
+		BF5C98351373F6FA00000929 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C982C1373F6FA00000929 /* SBJsonParser.m */; };
+		BF5C98361373F6FA00000929 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C982E1373F6FA00000929 /* SBJsonBase.m */; };
+		BF5C98371373F6FA00000929 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C98301373F6FA00000929 /* NSString+SBJSON.m */; };
+		BF5C98381373F6FA00000929 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C98321373F6FA00000929 /* NSObject+SBJSON.m */; };
+		BF5C98B71373FD7900000929 /* contents.json in Resources */ = {isa = PBXBuildFile; fileRef = BF5C98B61373FD7900000929 /* contents.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +37,18 @@
 		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* TreeList-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TreeList-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		BF5C98291373F6FA00000929 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		BF5C982A1373F6FA00000929 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		BF5C982B1373F6FA00000929 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		BF5C982C1373F6FA00000929 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		BF5C982D1373F6FA00000929 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		BF5C982E1373F6FA00000929 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		BF5C982F1373F6FA00000929 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		BF5C98301373F6FA00000929 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		BF5C98311373F6FA00000929 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		BF5C98321373F6FA00000929 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		BF5C98331373F6FA00000929 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		BF5C98B61373FD7900000929 /* contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = contents.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +99,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				BF5C98281373F6FA00000929 /* SBJSON */,
 				28A0AAE50D9B0CCF005BE974 /* TreeList_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -90,6 +109,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BF5C98B61373FD7900000929 /* contents.json */,
 				28F335F01007B36200424DE2 /* RootViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* TreeList-Info.plist */,
@@ -105,6 +125,24 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BF5C98281373F6FA00000929 /* SBJSON */ = {
+			isa = PBXGroup;
+			children = (
+				BF5C98291373F6FA00000929 /* JSON.h */,
+				BF5C982A1373F6FA00000929 /* SBJsonWriter.m */,
+				BF5C982B1373F6FA00000929 /* SBJsonWriter.h */,
+				BF5C982C1373F6FA00000929 /* SBJsonParser.m */,
+				BF5C982D1373F6FA00000929 /* SBJsonParser.h */,
+				BF5C982E1373F6FA00000929 /* SBJsonBase.m */,
+				BF5C982F1373F6FA00000929 /* SBJsonBase.h */,
+				BF5C98301373F6FA00000929 /* NSString+SBJSON.m */,
+				BF5C98311373F6FA00000929 /* NSString+SBJSON.h */,
+				BF5C98321373F6FA00000929 /* NSObject+SBJSON.m */,
+				BF5C98331373F6FA00000929 /* NSObject+SBJSON.h */,
+			);
+			name = SBJSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,6 +197,7 @@
 			files = (
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
+				BF5C98B71373FD7900000929 /* contents.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +211,11 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* TreeListAppDelegate.m in Sources */,
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
+				BF5C98341373F6FA00000929 /* SBJsonWriter.m in Sources */,
+				BF5C98351373F6FA00000929 /* SBJsonParser.m in Sources */,
+				BF5C98361373F6FA00000929 /* SBJsonBase.m in Sources */,
+				BF5C98371373F6FA00000929 /* NSString+SBJSON.m in Sources */,
+				BF5C98381373F6FA00000929 /* NSObject+SBJSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +231,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TreeList_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INFOPLIST_FILE = "TreeList-Info.plist";
 				PRODUCT_NAME = TreeList;
 			};
