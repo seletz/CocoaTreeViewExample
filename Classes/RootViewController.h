@@ -11,4 +11,7 @@
 @interface RootViewController : UITableViewController {
 }
 
+@property (nonatomic, retain) NSArray *items;
+-(id)initWithNibName:(NSString *)name bundle:(NSBundle *)bundle;
+
 @end
