@@ -11,7 +11,10 @@
 @interface RootViewController : UITableViewController {
 }
 
-@property (nonatomic, retain) NSArray *items;
--(id)initWithNibName:(NSString *)name bundle:(NSBundle *)bundle;
+@property (nonatomic, retain) NSMutableDictionary *items;
+
+
+-(int)getCellCount:(NSDictionary *)dict;
+-(NSDictionary *)getItemForCellCount:(int)index dict:(NSDictionary *)dict count:(int *)start;
 
 @end

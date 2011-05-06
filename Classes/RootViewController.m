@@ -22,36 +22,29 @@ static int dbg = 1;
 {
     DBGS;
     [super viewDidLoad];
-
-    NSString *data = @"[ \
-    { \
-      \"key\": \"Chapter 1\", \
-      \"value\": [ \
-          \"Subchapter 1.1\", \
-          \"Subchapter 1.2\", \
-          \"Subchapter 1.3\" \
-      ] \
-    }, \
-    { \
-      \"key\": \"Chapter 2\", \
-      \"value\": [ \
-          \"Subchapter 2.1\", \
-          \"Subchapter 2.2\", \
-          \"Subchapter 2.3\" \
-      ] \
-    }, \
-    { \
-      \"key\": \"Chapter 3\", \
-      \"value\": [ \
-          \"Subchapter 3.1\", \
-          \"Subchapter 3.2\", \
-          \"Subchapter 3.3\" \
-      ] \
-    } \
-    ]";
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"contents" ofType:@"json"];
+    NSString *data = [NSString stringWithContentsOfFile:filePath];
 
     self.items = [data JSONValue];
     DBG(@"self.items=%@", self.items);
+
+    int cell_count = [self getCellCount:self.items];
+    DBG(@"cell_count=%d", cell_count);
+
+    NSDictionary *item = nil;
+    item = [self getItemForCellCount:1 dict:self.items count:NULL];
+    DBG(@"item=%@", item);
+
+    item = [self getItemForCellCount:2 dict:self.items count:NULL];
+    DBG(@"item=%@", item);
+
+    item = [self getItemForCellCount:4 dict:self.items count:NULL];
+    DBG(@"item=%@", item);
+
+    for (int i=0; i<cell_count; i++) {
+        item = [self getItemForCellCount:i dict:self.items count:NULL];
+        NSLog(@"Cell %d: %@", i, [item objectForKey:@"key"]);
+    }
 }
 
 /*
@@ -92,6 +85,61 @@ static int dbg = 1;
     return 1;
 }
 
+-(int)getCellCount:(NSDictionary *)dict
+{
+    DBG(@"dict.key, isopen=%@, %@", [dict objectForKey:@"key"], [dict objectForKey:@"isOpen"]);
+
+    int count = 1;
+
+    BOOL isOpen = [[dict objectForKey:@"isOpen"] boolValue];
+
+    if (isOpen) {
+        for (NSDictionary *child in [dict objectForKey:@"value"]) {
+            DBGX(2, @"count=%d, child.key=%@ child.isOpen=%@",
+                    count,
+                    [child objectForKey:@"key"],
+                    [child objectForKey:@"isOpen"]);
+
+            count += [self getCellCount:child];
+        }
+    }
+
+    DBG(@"===> count=%d for dict.key=%@", count, [dict objectForKey:@"key"]);
+    return count;
+}
+
+-(NSDictionary *)getItemForCellCount:(int)index dict:(NSDictionary *)dict count:(int *)start
+{
+    DBGX(2, @"index=%d", index);
+    DBGX(2, @"dict=%@", dict);
+    DBGX(2, @"start=%p", start);
+
+    int count = 0;
+    NSDictionary *found = nil;
+
+    if (start != NULL)
+        count = *start;
+
+    for (NSDictionary *child in [dict objectForKey:@"value"]) {
+        count += 1;
+
+        DBGX(3, @"count=%d", count);
+        DBGX(3, @"child=%@", child);
+
+        if (count == index)
+            return child;
+
+        if ([child objectForKey:@"isOpen"]) {
+            found = [self getItemForCellCount:index
+                                         dict:child
+                                        count:&count];
+            if (found)
+                return found;
+        }
+    }
+
+    return nil;
+}
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -110,7 +158,7 @@ static int dbg = 1;
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 
-    NSDictionary *item = [self.items objectAtIndex:indexPath.row];
+    NSDictionary *item = [self.items objectForKey:@"root"];
 
     cell.textLabel.text = [item objectForKey:@"key"];
 
@@ -137,47 +185,6 @@ static int dbg = 1;
 
 #pragma mark -
 #pragma mark Memory management
-
--(id)initWithNibName:(NSString *)name bundle:(NSBundle *)bundle
-{
-    DBGS;
-    self = [super initWithNibName:name bundle:bundle];
-    if (self) {
-
-    NSString *data = @"[ \
-            { \
-                'key': 'Chapter 1', \
-                'value': [ \
-                    'Subchapter 1.1', \
-                    'Subchapter 1.2', \
-                    'Subchapter 1.3', \
-                ] \
-            }, \
-            { \
-                'key': 'Chapter 2', \
-                'value': [ \
-                    'Subchapter 2.1', \
-                    'Subchapter 2.2', \
-                    'Subchapter 2.3', \
-                ] \
-            }, \
-            { \
-                'key': 'Chapter 3', \
-                'value': [ \
-                    'Subchapter 3.1', \
-                    'Subchapter 3.2', \
-                    'Subchapter 3.3', \
-                ] \
-            } \
-        ]";
-
-        self.items = [data JSONValue];
-        DBG(@"self.items=%@", self.items);
-
-        return self;
-    }
-    return nil;
-}
 
 - (void)dealloc {
     [super dealloc];
