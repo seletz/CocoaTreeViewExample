@@ -14,6 +14,8 @@ static int dbg = 1;
 
 
 @synthesize items;
+@synthesize lookup;
+@synthesize level;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -25,57 +27,23 @@ static int dbg = 1;
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"contents" ofType:@"json"];
     NSString *data = [NSString stringWithContentsOfFile:filePath];
 
+    self.lookup = [NSMutableArray array];
+    self.level = [NSMutableArray array];
+
     self.items = [data JSONValue];
-    DBG(@"self.items=%@", self.items);
+    DBGX(2, @"self.items=%@", self.items);
 
+#if 0
     int cell_count = [self getCellCount:self.items];
-    DBG(@"cell_count=%d", cell_count);
+    DBGX(2, @"cell_count=%d", cell_count);
 
-    NSDictionary *item = nil;
-    item = [self getItemForCellCount:1 dict:self.items count:NULL];
-    DBG(@"item=%@", item);
-
-    item = [self getItemForCellCount:2 dict:self.items count:NULL];
-    DBG(@"item=%@", item);
-
-    item = [self getItemForCellCount:4 dict:self.items count:NULL];
-    DBG(@"item=%@", item);
+    DBGX(2, @"self.lookup=%@", self.lookup);
 
     for (int i=0; i<cell_count; i++) {
-        item = [self getItemForCellCount:i dict:self.items count:NULL];
-        NSLog(@"Cell %d: %@", i, [item objectForKey:@"key"]);
+        NSLog(@"Cell %d: %@", i, [[self.lookup objectAtIndex:i] objectForKey:@"key"]);
     }
+#endif
 }
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-
-/*
- // Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
- */
-
 
 #pragma mark -
 #pragma mark Table view data source
@@ -85,11 +53,14 @@ static int dbg = 1;
     return 1;
 }
 
--(int)getCellCount:(NSDictionary *)dict
+-(int)getCellCount:(NSDictionary *)dict level:(int)lvl;
 {
-    DBG(@"dict.key, isopen=%@, %@", [dict objectForKey:@"key"], [dict objectForKey:@"isOpen"]);
+    //DBG(@"dict.key, isopen=%@, %@", [dict objectForKey:@"key"], [dict objectForKey:@"isOpen"]);
 
     int count = 1;
+
+    [self.lookup addObject: dict];
+    [self.level addObject: [NSNumber numberWithInt:lvl]];
 
     BOOL isOpen = [[dict objectForKey:@"isOpen"] boolValue];
 
@@ -100,50 +71,23 @@ static int dbg = 1;
                     [child objectForKey:@"key"],
                     [child objectForKey:@"isOpen"]);
 
-            count += [self getCellCount:child];
+            count += [self getCellCount:child level:lvl + 1];
         }
     }
 
-    DBG(@"===> count=%d for dict.key=%@", count, [dict objectForKey:@"key"]);
+    DBG(@"===> level %d: count=%d for dict.key=%@", lvl, count, [dict objectForKey:@"key"]);
     return count;
-}
-
--(NSDictionary *)getItemForCellCount:(int)index dict:(NSDictionary *)dict count:(int *)start
-{
-    DBGX(2, @"index=%d", index);
-    DBGX(2, @"dict=%@", dict);
-    DBGX(2, @"start=%p", start);
-
-    int count = 0;
-    NSDictionary *found = nil;
-
-    if (start != NULL)
-        count = *start;
-
-    for (NSDictionary *child in [dict objectForKey:@"value"]) {
-        count += 1;
-
-        DBGX(3, @"count=%d", count);
-        DBGX(3, @"child=%@", child);
-
-        if (count == index)
-            return child;
-
-        if ([child objectForKey:@"isOpen"]) {
-            found = [self getItemForCellCount:index
-                                         dict:child
-                                        count:&count];
-            if (found)
-                return found;
-        }
-    }
-
-    return nil;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.items.count;
+    DBGS;
+    NSInteger count = [self getCellCount:items level:0] - 1;
+
+    DBG(@"self.lookup=%@", self.lookup);
+    DBG(@"self.level=%@", self.level);
+    
+    return count;
 }
 
 
@@ -158,15 +102,21 @@ static int dbg = 1;
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 
-    NSDictionary *item = [self.items objectForKey:@"root"];
+    NSDictionary *item = [self.lookup objectAtIndex:indexPath.row+1];
 
-    cell.textLabel.text = [item objectForKey:@"key"];
+    cell.indentationLevel = [[self.level objectAtIndex:indexPath.row+1] intValue] - 1;
+    cell.textLabel.text = [NSString stringWithFormat:@"%d: %@", cell.indentationLevel, [item objectForKey:@"key"]];
+
+    NSLog(@"value.@count = %@", [item valueForKeyPath:@"value.@count"]);
+
+    if ([[item valueForKeyPath:@"value.@count"] intValue] > 0) {
+        cell.accessoryType        = UITableViewCellAccessoryDisclosureIndicator;
+    } else {
+        cell.accessoryType        = UITableViewCellAccessoryNone;
+    }
 
     return cell;
 }
-
-
-
 
 #pragma mark -
 #pragma mark Table view delegate
@@ -189,6 +139,8 @@ static int dbg = 1;
 - (void)dealloc {
     [super dealloc];
     self.items = nil;
+    self.lookup = nil;
+    self.level = nil;
 }
 
 

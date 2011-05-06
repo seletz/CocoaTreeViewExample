@@ -12,9 +12,10 @@
 }
 
 @property (nonatomic, retain) NSMutableDictionary *items;
+@property (nonatomic, retain) NSMutableArray *lookup;
+@property (nonatomic, retain) NSMutableArray *level;
 
 
--(int)getCellCount:(NSDictionary *)dict;
--(NSDictionary *)getItemForCellCount:(int)index dict:(NSDictionary *)dict count:(int *)start;
+-(int)getCellCount:(NSDictionary *)dict level:(int)lvl;
 
 @end
