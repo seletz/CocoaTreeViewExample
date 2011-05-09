@@ -4,7 +4,7 @@ Cocoa Tree View Example
 
 :Author:  Stefan Eletzhofer
 :Date:    2011-05-09
-:Version: 0.2dev
+:Version: 0.2
 
 
 Abstract
@@ -118,7 +118,7 @@ idea ;)::
 Changelog
 =========
 
-0.2 - unreleased
+0.2 - 2011-05-09
 ----------------
 
 - refactored, created `TreeListModel`.
