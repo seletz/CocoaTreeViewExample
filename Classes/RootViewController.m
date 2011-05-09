@@ -32,12 +32,14 @@ static int dbg = 1;
 
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    DBGS;
     return 1;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    DBGS;
     return self.model.cellCount;
 }
 
@@ -57,7 +59,7 @@ static int dbg = 1;
     NSMutableDictionary *item = [self.model itemForRowAtIndexPath:indexPath];
 
     cell.indentationLevel = [self.model levelForRowAtIndexPath:indexPath];
-    cell.textLabel.text = [NSString stringWithFormat:@"%d: %@", cell.indentationLevel, [item objectForKey:@"key"]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [item objectForKey:@"key"]];
 
     BOOL isOpen = [self.model isCellOpenForRowAtIndexPath:indexPath];
     int item_count = [[item valueForKeyPath:@"value.@count"] intValue];
@@ -88,7 +90,7 @@ static int dbg = 1;
 
     [tableView beginUpdates];
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
-                  withRowAnimation:UITableViewRowAnimationFade];
+             withRowAnimation:UITableViewRowAnimationFade];
     [tableView endUpdates];
 }
 
@@ -98,6 +100,7 @@ static int dbg = 1;
 
 - (void)dealloc
 {
+    DBGS;
     self.model = nil;
     [super dealloc];
 }
