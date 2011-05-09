@@ -146,6 +146,8 @@ static int dbg = 1;
 
         self.lookup = [NSMutableArray array];
         self.level = [NSMutableArray array];
+
+        return self;
     }
     return nil;
 }
