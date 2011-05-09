@@ -4,7 +4,7 @@ Cocoa Tree View Example
 
 :Author:  Stefan Eletzhofer
 :Date:    2011-05-09
-:Version: 0.2
+:Version: 0.3dev
 
 
 Abstract
@@ -123,6 +123,11 @@ idea ;)
 
 Changelog
 =========
+
+0.3 - unreleased
+----------------
+
+no changes yet.
 
 0.2 - 2011-05-09
 ----------------
