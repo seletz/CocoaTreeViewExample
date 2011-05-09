@@ -13,9 +13,7 @@ static int dbg = 1;
 @implementation RootViewController
 
 
-@synthesize items;
-@synthesize lookup;
-@synthesize level;
+@synthesize model;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -25,24 +23,8 @@ static int dbg = 1;
     DBGS;
     [super viewDidLoad];
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"contents" ofType:@"json"];
-    NSString *data = [NSString stringWithContentsOfFile:filePath];
 
-    self.lookup = [NSMutableArray array];
-    self.level = [NSMutableArray array];
-
-    self.items = [data JSONValue];
-    DBGX(2, @"self.items=%@", self.items);
-
-#if 0
-    int cell_count = [self getCellCount:self.items];
-    DBGX(2, @"cell_count=%d", cell_count);
-
-    DBGX(2, @"self.lookup=%@", self.lookup);
-
-    for (int i=0; i<cell_count; i++) {
-        NSLog(@"Cell %d: %@", i, [[self.lookup objectAtIndex:i] objectForKey:@"key"]);
-    }
-#endif
+    self.model = [[TreeListModel alloc] initWithJSONFilePath:filePath];
 }
 
 #pragma mark -
@@ -53,38 +35,10 @@ static int dbg = 1;
     return 1;
 }
 
--(int)getCellCount:(NSMutableDictionary *)dict level:(int)lvl;
-{
-    //DBG(@"dict.key, isopen=%@, %@", [dict objectForKey:@"key"], [dict objectForKey:@"isOpen"]);
-
-    int count = 1;
-
-    [self.lookup addObject: dict];
-    [self.level addObject: [NSNumber numberWithInt:lvl]];
-
-    BOOL isOpen = [[dict objectForKey:@"isOpen"] boolValue];
-
-    if (isOpen) {
-        for (NSMutableDictionary *child in [dict objectForKey:@"value"]) {
-            DBGX(2, @"count=%d, child.key=%@ child.isOpen=%@",
-                    count,
-                    [child objectForKey:@"key"],
-                    [child objectForKey:@"isOpen"]);
-
-            count += [self getCellCount:child level:lvl + 1];
-        }
-    }
-
-    DBGX(2, @"===> level %d: count=%d for dict.key=%@", lvl, count, [dict objectForKey:@"key"]);
-    return count;
-}
-
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    self.lookup = [NSMutableArray array];
-    self.level = [NSMutableArray array];
-    return [self getCellCount:items level:0] - 1;
+    return self.model.cellCount;
 }
 
 
@@ -92,7 +46,7 @@ static int dbg = 1;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     DBG(@"indexPath=%@", indexPath);
-    
+
     static NSString *CellIdentifier = @"Cell";
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -100,12 +54,12 @@ static int dbg = 1;
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 
-    NSMutableDictionary *item = [self.lookup objectAtIndex:indexPath.row+1];
+    NSMutableDictionary *item = [self.model itemForRowAtIndexPath:indexPath];
 
-    cell.indentationLevel = [[self.level objectAtIndex:indexPath.row+1] intValue] - 1;
+    cell.indentationLevel = [self.model levelForRowAtIndexPath:indexPath];
     cell.textLabel.text = [NSString stringWithFormat:@"%d: %@", cell.indentationLevel, [item objectForKey:@"key"]];
 
-    BOOL isOpen = [[item valueForKeyPath:@"isOpen"] boolValue];
+    BOOL isOpen = [self.model isCellOpenForRowAtIndexPath:indexPath];
     int item_count = [[item valueForKeyPath:@"value.@count"] intValue];
     if (isOpen == NO && item_count > 0) {
         cell.accessoryType        = UITableViewCellAccessoryDisclosureIndicator;
@@ -122,18 +76,15 @@ static int dbg = 1;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DBG(@"indexPath=%@", indexPath);
-    NSMutableDictionary *item = [self.lookup objectAtIndex:indexPath.row+1];
-    DBGX(2, @"item.key=%@ item.isOpen=%@", [item objectForKey:@"key"], [item objectForKey:@"isOpen"]);
 
     BOOL newState = NO;
-    if (NO == [[item valueForKeyPath:@"isOpen"] boolValue]) {
+    BOOL isOpen = [self.model isCellOpenForRowAtIndexPath:indexPath];
+    if (NO == isOpen) {
          newState = YES;
     } else {
          newState = NO;
     }
-    [item setObject:[NSNumber numberWithBool:newState] forKey:@"isOpen"];
-
-    DBGX(2, @"item.key=%@ item.isOpen=%@", [item objectForKey:@"key"], [item objectForKey:@"isOpen"]);
+    [self.model setOpenClose:newState forRowAtIndexPath:indexPath];
 
     [tableView beginUpdates];
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
@@ -145,11 +96,10 @@ static int dbg = 1;
 #pragma mark -
 #pragma mark Memory management
 
-- (void)dealloc {
+- (void)dealloc
+{
+    self.model = nil;
     [super dealloc];
-    self.items = nil;
-    self.lookup = nil;
-    self.level = nil;
 }
 
 

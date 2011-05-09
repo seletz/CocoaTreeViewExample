@@ -8,13 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "TreeListModel.h"
+
 @interface RootViewController : UITableViewController {
 }
 
-@property (nonatomic, retain) NSMutableDictionary *items;
-@property (nonatomic, retain) NSMutableArray *lookup;
-@property (nonatomic, retain) NSMutableArray *level;
-
--(int)getCellCount:(NSMutableDictionary *)dict level:(int)lvl;
+@property (nonatomic, retain) TreeListModel *model;
 
 @end

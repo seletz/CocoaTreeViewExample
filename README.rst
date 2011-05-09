@@ -2,8 +2,9 @@
 Cocoa Tree View Example
 =======================
 
-:Author: Stefan Eletzhofer
-:Date:   2011-05-06
+:Author:  Stefan Eletzhofer
+:Date:    2011-05-09
+:Version: 0.2dev
 
 
 Abstract
@@ -116,6 +117,11 @@ idea ;)::
 
 Changelog
 =========
+
+0.2 - unreleased
+----------------
+
+- refactored, created `TreeListModel`.
 
 0.1 - 2011-05-06
 ----------------
