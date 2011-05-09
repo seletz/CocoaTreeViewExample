@@ -2,8 +2,9 @@
 Cocoa Tree View Example
 =======================
 
-:Author: Stefan Eletzhofer
-:Date:   2011-05-06
+:Author:  Stefan Eletzhofer
+:Date:    2011-05-09
+:Version: 0.2
 
 
 Abstract
@@ -25,8 +26,14 @@ Features
 Data Model
 ==========
 
+All the specific tree/list handling stuff is done in `TreeListModel`.  This
+class offers accessor methods which make it fairly simple to use it as a
+`UITableViewDataSource`.
+
 Demo data is load from a JSON file which looks like this.  You get the
-idea ;)::
+idea ;)
+
+::
 
     {
         "key": "root", 
@@ -116,6 +123,11 @@ idea ;)::
 
 Changelog
 =========
+
+0.2 - 2011-05-09
+----------------
+
+- refactored, created `TreeListModel`.
 
 0.1 - 2011-05-06
 ----------------

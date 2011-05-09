@@ -15,6 +15,7 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
+		BF38C59D1377EDB20072AD3C /* TreeListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BF38C59C1377EDB20072AD3C /* TreeListModel.m */; };
 		BF5C98341373F6FA00000929 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C982A1373F6FA00000929 /* SBJsonWriter.m */; };
 		BF5C98351373F6FA00000929 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C982C1373F6FA00000929 /* SBJsonParser.m */; };
 		BF5C98361373F6FA00000929 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C982E1373F6FA00000929 /* SBJsonBase.m */; };
@@ -37,6 +38,8 @@
 		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* TreeList-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TreeList-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		BF38C59B1377EDB20072AD3C /* TreeListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeListModel.h; sourceTree = "<group>"; };
+		BF38C59C1377EDB20072AD3C /* TreeListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeListModel.m; sourceTree = "<group>"; };
 		BF5C98291373F6FA00000929 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		BF5C982A1373F6FA00000929 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		BF5C982B1373F6FA00000929 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
@@ -72,6 +75,8 @@
 				28C286E00D94DF7D0034E888 /* RootViewController.m */,
 				1D3623240D0F684500981E51 /* TreeListAppDelegate.h */,
 				1D3623250D0F684500981E51 /* TreeListAppDelegate.m */,
+				BF38C59B1377EDB20072AD3C /* TreeListModel.h */,
+				BF38C59C1377EDB20072AD3C /* TreeListModel.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				BF5C98361373F6FA00000929 /* SBJsonBase.m in Sources */,
 				BF5C98371373F6FA00000929 /* NSString+SBJSON.m in Sources */,
 				BF5C98381373F6FA00000929 /* NSObject+SBJSON.m in Sources */,
+				BF38C59D1377EDB20072AD3C /* TreeListModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
