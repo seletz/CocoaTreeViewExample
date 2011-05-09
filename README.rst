@@ -127,6 +127,8 @@ Changelog
 0.3 - unreleased
 ----------------
 
+- upgrade JSON data model to multivalued data.
+- made a universal app.
 - use KVC to access model items.  Remove NSMutableDictionary
   dependency.
 
