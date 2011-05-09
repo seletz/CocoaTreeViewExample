@@ -26,8 +26,14 @@ Features
 Data Model
 ==========
 
+All the specific tree/list handling stuff is done in `TreeListModel`.  This
+class offers accessor methods which make it fairly simple to use it as a
+`UITableViewDataSource`.
+
 Demo data is load from a JSON file which looks like this.  You get the
-idea ;)::
+idea ;)
+
+::
 
     {
         "key": "root", 
