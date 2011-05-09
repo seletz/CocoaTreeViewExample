@@ -127,7 +127,8 @@ Changelog
 0.3 - unreleased
 ----------------
 
-no changes yet.
+- use KVC to access model items.  Remove NSMutableDictionary
+  dependency.
 
 0.2 - 2011-05-09
 ----------------
