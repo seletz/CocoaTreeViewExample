@@ -10,9 +10,10 @@
 
 static int dbg = 1;
 
+#define MAX_LEVEL 3.0
 #define RADIUS (5.0)
-#define MARGIN_TOP (7.5)
-#define MARGIN_BOTTOM (7.5)
+#define MARGIN_TOP (5.0)
+#define MARGIN_BOTTOM (5.0)
 #define MARGIN_LEFT (10.0)
 
 //////////////////////////////////////////////////////////////////////
@@ -46,6 +47,16 @@ static int dbg = 1;
 #pragma mark -
 #pragma mark custom drawing
 
+-(UIColor *)colorForLevel:(int)level
+{
+
+    level = level>3?3:level;
+    return [UIColor colorWithHue:98.0/360
+                      saturation:(level*0.2/MAX_LEVEL)
+                      brightness:0.95
+                           alpha:1.0];
+}
+
 - (void) drawRect:(CGRect)rect
 {
 	DBGS;
@@ -56,17 +67,21 @@ static int dbg = 1;
 
     CGFloat indent = self.indentationLevel * self.indentationWidth;
 
+    UIColor *strokeColor = [UIColor darkGrayColor];
+
     DBG(@"height=%g", height);
     DBG(@"width=%g", width);
     DBG(@"indent=%g", indent);
+
+    [self setBackgroundColor:[self colorForLevel:self.indentationLevel]];
 
 	CGContextRef context = UIGraphicsGetCurrentContext();
 
 	CGContextSaveGState(context);
 
-	UIColor *col = [UIColor greenColor];
+    CGContextSetFillColorWithColor(context, [[self colorForLevel:self.indentationLevel] CGColor]);
 
-	CGContextSetFillColorWithColor(context, [col CGColor]);
+    CGContextFillRect(context, self.frame);
 
     // name label
     CGRect nameLabelFrame = CGRectZero;
@@ -78,20 +93,52 @@ static int dbg = 1;
 
     if (self.indentationLevel > 0) {
         for (int level = self.indentationLevel; level>0; level--) {
+            CGContextSetFillColorWithColor(context, [[self colorForLevel:level - 1] CGColor]);
             CGFloat indent = (level - 1) * self.indentationWidth;
             CGContextBeginPath(context);
 
-            CGContextMoveToPoint(context, indent + MARGIN_LEFT, 0);
-            CGContextAddLineToPoint(context, indent + MARGIN_LEFT, height);
+            CGContextMoveToPoint(context, 0, 0);
+            CGContextAddLineToPoint(context, 0, height);                             // top right
+            CGContextAddLineToPoint(context, indent + MARGIN_LEFT, height);     // bottom right
+            CGContextAddLineToPoint(context, indent + MARGIN_LEFT, 0);             // bottom left
 
-            //CGContextClosePath(context);
+
+            CGContextClosePath(context);
+            CGContextFillPath(context);
             CGContextStrokePath(context);
+
+
+            // left hand border lines
+            CGContextSetStrokeColorWithColor(context, [strokeColor CGColor]);
+            CGContextBeginPath(context);
+            CGContextMoveToPoint(context, indent + MARGIN_LEFT, height);     // bottom right
+            CGContextAddLineToPoint(context, indent + MARGIN_LEFT, 0);             // bottom left
+            CGContextStrokePath(context);
+
+
         }
     }
 
     if (self.hasChildren && self.isOpen) {
+        CGContextSetFillColorWithColor(context, [[self colorForLevel:self.indentationLevel + 1] CGColor]);
+
         CGContextBeginPath(context);
 
+        // bottom left
+        CGContextMoveToPoint(context, indent + MARGIN_LEFT, height);
+        CGContextAddArcToPoint(context, indent + MARGIN_LEFT, height - MARGIN_BOTTOM,
+                                        width,                height - MARGIN_BOTTOM,
+                                        RADIUS);
+        CGContextAddLineToPoint(context, width, height - MARGIN_BOTTOM);
+        CGContextAddLineToPoint(context, width, height);
+
+        CGContextClosePath(context);
+        CGContextFillPath(context);
+
+
+        // draw the border, bottom with arc
+        CGContextSetStrokeColorWithColor(context, [strokeColor CGColor]);
+        CGContextBeginPath(context);
         CGContextMoveToPoint(context, indent + MARGIN_LEFT, height);
         CGContextAddArcToPoint(context, indent + MARGIN_LEFT, height - MARGIN_BOTTOM,
                                         width,                height - MARGIN_BOTTOM,
@@ -100,6 +147,22 @@ static int dbg = 1;
 
         CGContextStrokePath(context);
 
+    }
+
+    // draw the bottom line
+    if (!self.isOpen) {
+        int level = self.indentationLevel;
+        CGFloat indent = (level-1) * self.indentationWidth;
+        CGContextSetStrokeColorWithColor(context, [strokeColor CGColor]);
+        CGContextBeginPath(context);
+        if (level>0) {
+            CGContextMoveToPoint(context, indent + MARGIN_LEFT, height);
+            CGContextAddLineToPoint(context, width, height);
+        } else {
+            CGContextMoveToPoint(context, 0, height);
+            CGContextAddLineToPoint(context, width, height);
+        }
+        CGContextStrokePath(context);
     }
 
 	CGContextRestoreGState(context);
@@ -118,7 +181,7 @@ static int dbg = 1;
         self.nameLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
         [self.nameLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:18]];
         [self.nameLabel setBackgroundColor:[UIColor clearColor]];
-        [self.nameLabel setTextColor:[UIColor orangeColor]];
+        [self.nameLabel setTextColor:[UIColor blackColor]];
         [self.nameLabel setTextAlignment:UITextAlignmentLeft];
 
         [self addSubview:self.nameLabel];
@@ -186,7 +249,7 @@ static int dbg = 1;
 
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.indentationWidth = 20.0;
+        self.indentationWidth = MARGIN_LEFT;
         self.name = @"foo";
 
         self.indentView = [[[IndentView alloc] initWithFrame:self.frame] autorelease];
