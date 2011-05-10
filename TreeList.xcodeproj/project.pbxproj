@@ -16,6 +16,8 @@
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
 		BF38C59D1377EDB20072AD3C /* TreeListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BF38C59C1377EDB20072AD3C /* TreeListModel.m */; };
+		BF38C6A413782FF30072AD3C /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF38C6A313782FF30072AD3C /* MainWindow-iPad.xib */; };
+		BF38C6C2137844190072AD3C /* TreeListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF38C6C1137844190072AD3C /* TreeListTableViewCell.m */; };
 		BF5C98341373F6FA00000929 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C982A1373F6FA00000929 /* SBJsonWriter.m */; };
 		BF5C98351373F6FA00000929 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C982C1373F6FA00000929 /* SBJsonParser.m */; };
 		BF5C98361373F6FA00000929 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5C982E1373F6FA00000929 /* SBJsonBase.m */; };
@@ -32,7 +34,7 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AAE50D9B0CCF005BE974 /* TreeList_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeList_Prefix.pch; sourceTree = "<group>"; };
-		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; explicitFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28C286DF0D94DF7D0034E888 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		28C286E00D94DF7D0034E888 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
@@ -40,6 +42,9 @@
 		8D1107310486CEB800E47090 /* TreeList-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TreeList-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		BF38C59B1377EDB20072AD3C /* TreeListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeListModel.h; sourceTree = "<group>"; };
 		BF38C59C1377EDB20072AD3C /* TreeListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeListModel.m; sourceTree = "<group>"; };
+		BF38C6A313782FF30072AD3C /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		BF38C6C0137844190072AD3C /* TreeListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeListTableViewCell.h; sourceTree = "<group>"; };
+		BF38C6C1137844190072AD3C /* TreeListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeListTableViewCell.m; sourceTree = "<group>"; };
 		BF5C98291373F6FA00000929 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		BF5C982A1373F6FA00000929 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		BF5C982B1373F6FA00000929 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
@@ -77,6 +82,8 @@
 				1D3623250D0F684500981E51 /* TreeListAppDelegate.m */,
 				BF38C59B1377EDB20072AD3C /* TreeListModel.h */,
 				BF38C59C1377EDB20072AD3C /* TreeListModel.m */,
+				BF38C6C0137844190072AD3C /* TreeListTableViewCell.h */,
+				BF38C6C1137844190072AD3C /* TreeListTableViewCell.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -95,6 +102,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				BF38C6A213782FF20072AD3C /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -130,6 +138,14 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BF38C6A213782FF20072AD3C /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				BF38C6A313782FF30072AD3C /* MainWindow-iPad.xib */,
+			);
+			name = "Resources-iPad";
 			sourceTree = "<group>";
 		};
 		BF5C98281373F6FA00000929 /* SBJSON */ = {
@@ -203,6 +219,7 @@
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
 				BF5C98B71373FD7900000929 /* contents.json in Resources */,
+				BF38C6A413782FF30072AD3C /* MainWindow-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +239,7 @@
 				BF5C98371373F6FA00000929 /* NSString+SBJSON.m in Sources */,
 				BF5C98381373F6FA00000929 /* NSObject+SBJSON.m in Sources */,
 				BF38C59D1377EDB20072AD3C /* TreeListModel.m in Sources */,
+				BF38C6C2137844190072AD3C /* TreeListTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +250,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -240,6 +259,8 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				INFOPLIST_FILE = "TreeList-Info.plist";
 				PRODUCT_NAME = TreeList;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -247,11 +268,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TreeList_Prefix.pch;
 				INFOPLIST_FILE = "TreeList-Info.plist";
 				PRODUCT_NAME = TreeList;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

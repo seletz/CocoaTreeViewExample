@@ -3,8 +3,8 @@ Cocoa Tree View Example
 =======================
 
 :Author:  Stefan Eletzhofer
-:Date:    2011-05-09
-:Version: 0.2
+:Date:    2011-05-10
+:Version: 0.3
 
 
 Abstract
@@ -123,6 +123,15 @@ idea ;)
 
 Changelog
 =========
+
+0.3 - 2011-05-10
+----------------
+
+- added some custom UITableViewCells which fancy lines and stuff.
+- upgrade JSON data model to multivalued data.
+- made a universal app.
+- use KVC to access model items.  Remove NSMutableDictionary
+  dependency.
 
 0.2 - 2011-05-09
 ----------------

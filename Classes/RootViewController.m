@@ -7,9 +7,10 @@
 //
 
 #import "NSString+SBJSON.h"
+#import "TreeListTableViewCell.h"
 #import "RootViewController.h"
 
-static int dbg = 1;
+static int dbg = 0;
 @implementation RootViewController
 
 
@@ -27,17 +28,23 @@ static int dbg = 1;
     self.model = [[TreeListModel alloc] initWithJSONFilePath:filePath];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
+}
+
 #pragma mark -
 #pragma mark Table view data source
 
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    DBGS;
     return 1;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    DBGS;
     return self.model.cellCount;
 }
 
@@ -49,24 +56,27 @@ static int dbg = 1;
 
     static NSString *CellIdentifier = @"Cell";
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    TreeListTableViewCell *cell = (TreeListTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[TreeListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 
     NSMutableDictionary *item = [self.model itemForRowAtIndexPath:indexPath];
 
     cell.indentationLevel = [self.model levelForRowAtIndexPath:indexPath];
-    cell.textLabel.text = [NSString stringWithFormat:@"%d: %@", cell.indentationLevel, [item objectForKey:@"key"]];
+    cell.name = [NSString stringWithFormat:@"%@", [item objectForKey:@"key"]];
 
     BOOL isOpen = [self.model isCellOpenForRowAtIndexPath:indexPath];
+    cell.isOpen = isOpen;
     int item_count = [[item valueForKeyPath:@"value.@count"] intValue];
+    cell.hasChildren = item_count > 0;
     if (isOpen == NO && item_count > 0) {
         cell.accessoryType        = UITableViewCellAccessoryDisclosureIndicator;
     } else {
         cell.accessoryType        = UITableViewCellAccessoryNone;
     }
 
+    [cell setNeedsDisplay];
     return cell;
 }
 
@@ -76,6 +86,11 @@ static int dbg = 1;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DBG(@"indexPath=%@", indexPath);
+
+    NSMutableDictionary *item = [self.model itemForRowAtIndexPath:indexPath];
+    int item_count = [[item valueForKeyPath:@"value.@count"] intValue];
+    if (item_count<=0)
+        return;
 
     BOOL newState = NO;
     BOOL isOpen = [self.model isCellOpenForRowAtIndexPath:indexPath];
@@ -88,7 +103,7 @@ static int dbg = 1;
 
     [tableView beginUpdates];
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
-                  withRowAnimation:UITableViewRowAnimationFade];
+             withRowAnimation:UITableViewRowAnimationFade];
     [tableView endUpdates];
 }
 
@@ -98,10 +113,11 @@ static int dbg = 1;
 
 - (void)dealloc
 {
+    DBGS;
     self.model = nil;
     [super dealloc];
 }
 
 
 @end
-// vim: set sw=4 ts=4 expandtab:
+// vim: set sw=4 ts=4 expandta:

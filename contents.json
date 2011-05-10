@@ -1,33 +1,47 @@
 {
-    "key": "root", 
     "isOpen": true, 
+    "key": "root", 
+    "line_number": 10, 
+    "quantity": 3, 
     "value": [
         {
             "isOpen": true, 
             "key": "Chapter 1", 
+            "line_number": 20, 
+            "quantity": 3, 
             "value": [
                 {
                     "isOpen": false, 
                     "key": "Subchapter 1.1", 
+                    "line_number": 30, 
+                    "quantity": 3, 
                     "value": []
                 }, 
                 {
                     "isOpen": true, 
                     "key": "Subchapter 1.2", 
+                    "line_number": 40, 
+                    "quantity": 3, 
                     "value": [
                         {
                             "isOpen": false, 
                             "key": "Sub Sub Chapter 1.2.1", 
+                            "line_number": 50, 
+                            "quantity": 3, 
                             "value": []
                         }, 
                         {
                             "isOpen": false, 
                             "key": "Sub Sub Chapter 1.2.2", 
+                            "line_number": 60, 
+                            "quantity": 3, 
                             "value": []
                         }, 
                         {
                             "isOpen": false, 
                             "key": "Sub Sub Chapter 1.2.3", 
+                            "line_number": 70, 
+                            "quantity": 3, 
                             "value": []
                         }
                     ]
@@ -35,6 +49,8 @@
                 {
                     "isOpen": false, 
                     "key": "Subchapter 1.3", 
+                    "line_number": 80, 
+                    "quantity": 3, 
                     "value": []
                 }
             ]
@@ -42,20 +58,28 @@
         {
             "isOpen": false, 
             "key": "Chapter 2", 
+            "line_number": 90, 
+            "quantity": 3, 
             "value": [
                 {
                     "isOpen": false, 
                     "key": "Subchapter 2.1", 
+                    "line_number": 100, 
+                    "quantity": 3, 
                     "value": []
                 }, 
                 {
                     "isOpen": false, 
                     "key": "Subchapter 2.2", 
+                    "line_number": 110, 
+                    "quantity": 3, 
                     "value": []
                 }, 
                 {
                     "isOpen": false, 
                     "key": "Subchapter 2.3", 
+                    "line_number": 120, 
+                    "quantity": 3, 
                     "value": []
                 }
             ]
@@ -63,20 +87,28 @@
         {
             "isOpen": true, 
             "key": "Chapter 3", 
+            "line_number": 130, 
+            "quantity": 3, 
             "value": [
                 {
                     "isOpen": false, 
                     "key": "Subchapter 3.1", 
+                    "line_number": 140, 
+                    "quantity": 3, 
                     "value": []
                 }, 
                 {
                     "isOpen": false, 
                     "key": "Subchapter 3.2", 
+                    "line_number": 150, 
+                    "quantity": 3, 
                     "value": []
                 }, 
                 {
                     "isOpen": false, 
                     "key": "Subchapter 3.3", 
+                    "line_number": 160, 
+                    "quantity": 3, 
                     "value": []
                 }
             ]
