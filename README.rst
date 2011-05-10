@@ -3,8 +3,8 @@ Cocoa Tree View Example
 =======================
 
 :Author:  Stefan Eletzhofer
-:Date:    2011-05-09
-:Version: 0.3dev
+:Date:    2011-05-10
+:Version: 0.3
 
 
 Abstract
@@ -124,7 +124,7 @@ idea ;)
 Changelog
 =========
 
-0.3 - unreleased
+0.3 - 2011-05-10
 ----------------
 
 - added some custom UITableViewCells which fancy lines and stuff.
