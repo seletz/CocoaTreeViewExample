@@ -127,6 +127,7 @@ Changelog
 0.3 - unreleased
 ----------------
 
+- added some custom UITableViewCells which fancy lines and stuff.
 - upgrade JSON data model to multivalued data.
 - made a universal app.
 - use KVC to access model items.  Remove NSMutableDictionary
