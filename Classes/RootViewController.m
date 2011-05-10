@@ -7,9 +7,10 @@
 //
 
 #import "NSString+SBJSON.h"
+#import "TreeListTableViewCell.h"
 #import "RootViewController.h"
 
-static int dbg = 1;
+static int dbg = 0;
 @implementation RootViewController
 
 
@@ -51,24 +52,27 @@ static int dbg = 1;
 
     static NSString *CellIdentifier = @"Cell";
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    TreeListTableViewCell *cell = (TreeListTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[TreeListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 
     NSMutableDictionary *item = [self.model itemForRowAtIndexPath:indexPath];
 
     cell.indentationLevel = [self.model levelForRowAtIndexPath:indexPath];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", [item objectForKey:@"key"]];
+    cell.name = [NSString stringWithFormat:@"%@", [item objectForKey:@"key"]];
 
     BOOL isOpen = [self.model isCellOpenForRowAtIndexPath:indexPath];
+    cell.isOpen = isOpen;
     int item_count = [[item valueForKeyPath:@"value.@count"] intValue];
+    cell.hasChildren = item_count > 0;
     if (isOpen == NO && item_count > 0) {
         cell.accessoryType        = UITableViewCellAccessoryDisclosureIndicator;
     } else {
         cell.accessoryType        = UITableViewCellAccessoryNone;
     }
 
+    [cell setNeedsDisplay];
     return cell;
 }
 
@@ -107,4 +111,4 @@ static int dbg = 1;
 
 
 @end
-// vim: set sw=4 ts=4 expandtab:
+// vim: set sw=4 ts=4 expandta:

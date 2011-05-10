@@ -13,4 +13,9 @@
 
 }
 
+@property (nonatomic, assign) BOOL isOpen;
+@property (nonatomic, assign) BOOL hasChildren;
+
+@property (nonatomic, retain) NSString *name;
+
 @end
