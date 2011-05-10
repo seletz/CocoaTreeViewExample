@@ -28,6 +28,10 @@ static int dbg = 0;
     self.model = [[TreeListModel alloc] initWithJSONFilePath:filePath];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
+}
+
 #pragma mark -
 #pragma mark Table view data source
 
@@ -82,6 +86,11 @@ static int dbg = 0;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DBG(@"indexPath=%@", indexPath);
+
+    NSMutableDictionary *item = [self.model itemForRowAtIndexPath:indexPath];
+    int item_count = [[item valueForKeyPath:@"value.@count"] intValue];
+    if (item_count<=0)
+        return;
 
     BOOL newState = NO;
     BOOL isOpen = [self.model isCellOpenForRowAtIndexPath:indexPath];
