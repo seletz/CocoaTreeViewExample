@@ -8,7 +8,7 @@
 
 #import "TreeListTableViewCell.h"
 
-static int dbg = 1;
+static int dbg = 0;
 
 #define MAX_LEVEL 3.0
 #define RADIUS (5.0)

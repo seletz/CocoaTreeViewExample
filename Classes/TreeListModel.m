@@ -9,7 +9,7 @@
 #import "TreeListModel.h"
 #import "NSString+SBJSON.h"
 
-static int dbg = 1;
+static int dbg = 0;
 
 @interface TreeListModel ()
 
