@@ -4,7 +4,7 @@ Cocoa Tree View Example
 
 :Author:  Stefan Eletzhofer
 :Date:    2011-05-10
-:Version: 0.3
+:Version: 0.3.1
 
 
 Abstract
@@ -15,6 +15,15 @@ data in **one** UITableView.
 
 This is what I've come up with, it's a proof-of-concept and badly needs
 refactoring.
+
+License
+=======
+
+This work is licensed under the Creative Commons Attribution-ShareAlike 3.0
+Unported License. To view a copy of this license, visit
+http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to Creative
+Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041,
+USA.
 
 Features
 ========
@@ -123,6 +132,11 @@ idea ;)
 
 Changelog
 =========
+
+0.3.1 - 2011-06-30
+------------------
+
+- update license
 
 0.3 - 2011-05-10
 ----------------
