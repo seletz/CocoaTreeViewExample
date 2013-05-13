@@ -2,9 +2,9 @@
 Cocoa Tree View Example
 =======================
 
-:Author:  Stefan Eletzhofer
-:Date:    2011-06-30
-:Version: 0.3.1
+Author:  Stefan Eletzhofer
+Date:    2011-06-30
+Version: 0.3.1
 
 
 Abstract
@@ -48,7 +48,7 @@ class offers accessor methods which make it fairly simple to use it as a
 Demo data is load from a JSON file which looks like this.  You get the
 idea ;)
 
-::
+{% highlight json %}
 
     {
         "key": "root", 
@@ -136,6 +136,8 @@ idea ;)
         ]
     }
 
+{% endhighlight %}
+
 Changelog
 =========
 
@@ -163,4 +165,3 @@ Changelog
 
 - Initial release to github
 
-..  vim: set ft=rst tw=75 nocin nosi ai sw=4 ts=4 expandtab:
