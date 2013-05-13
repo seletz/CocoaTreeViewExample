@@ -3,7 +3,9 @@ Cocoa Tree View Example
 =======================
 
 Author:  Stefan Eletzhofer
+
 Date:    2011-06-30
+
 Version: 0.3.1
 
 
