@@ -16,6 +16,12 @@ data in **one** UITableView.
 This is what I've come up with, it's a proof-of-concept and badly needs
 refactoring.
 
+<!-- MacBuildServer Install Button -->
+<div class="macbuildserver-block">
+    <a class="macbuildserver-button" href="http://macbuildserver.com/project/github/build/?xcode_project=TreeList.xcodeproj&amp;target=TreeList&amp;repo_url=git%3A%2F%2Fgithub.com%2Fseletz%2FCocoaTreeViewExample.git&amp;build_conf=Release" target="_blank"><img src="http://com.macbuildserver.github.s3-website-us-east-1.amazonaws.com/button_up.png"/></a><br/><sup><a href="http://macbuildserver.com/github/opensource/" target="_blank">by MacBuildServer</a></sup>
+</div>
+<!-- MacBuildServer Install Button -->
+
 License
 =======
 
