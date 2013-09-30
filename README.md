@@ -50,8 +50,7 @@ class offers accessor methods which make it fairly simple to use it as a
 Demo data is load from a JSON file which looks like this.  You get the
 idea ;)
 
-{% highlight json %}
-
+```json
     {
         "key": "root", 
         "isOpen": true, 
@@ -137,8 +136,7 @@ idea ;)
             }
         ]
     }
-
-{% endhighlight %}
+```
 
 Changelog
 =========
